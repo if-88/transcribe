@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Local Meeting Scribe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">AI vibe coding demo</p>
+          <h1>Transcribe meetings locally. Turn them into clean minutes.</h1>
+          <p class="lede">
+            A browser-based prototype for private meeting capture: upload audio,
+            record in the tab, run local Whisper transcription, and generate
+            structured minutes with summary, decisions, and next steps.
+          </p>
+          <div class="hero-badges">
+            <span>Local transcription</span>
+            <span>No build step</span>
+            <span>Static-host ready</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <p class="card-label">Demo workflow</p>
+          <ol>
+            <li>Upload audio or record from your mic</li>
+            <li>Run local transcription in-browser</li>
+            <li>Review AI-style meeting minutes</li>
+          </ol>
+          <p class="card-note">
+            Tip: start with shorter clips for the best browser performance.
+          </p>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="panel controls-panel">
+          <div class="section-heading">
+            <div>
+              <p class="kicker">Input</p>
+              <h2>Source media</h2>
+            </div>
+            <span id="appStatus" class="status-pill idle">Ready</span>
+          </div>
+
+          <label class="upload-zone" for="mediaFile">
+            <input
+              id="mediaFile"
+              type="file"
+              accept="audio/*,video/*"
+              hidden
+            />
+            <span class="upload-title">Drop audio or video here</span>
+            <span class="upload-caption">
+              Works best with WAV, MP3, M4A, and browser-decodable recordings.
+            </span>
+          </label>
+
+          <div class="row">
+            <div class="field">
+              <label for="modelSelect">Whisper model</label>
+              <select id="modelSelect">
+                <option value="Xenova/whisper-tiny.en">Tiny English</option>
+                <option value="Xenova/whisper-base.en" selected>
+                  Base English
+                </option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="minutesTone">Minutes style</label>
+              <select id="minutesTone">
+                <option value="concise">Concise</option>
+                <option value="balanced" selected>Balanced</option>
+                <option value="executive">Executive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="recorder">
+            <div>
+              <p class="kicker">Mic capture</p>
+              <h3>Record a quick sample</h3>
+            </div>
+            <div class="recorder-actions">
+              <button id="recordBtn" class="secondary">Start recording</button>
+              <button id="stopBtn" class="ghost" disabled>Stop</button>
+            </div>
+            <p id="recordingHint" class="help-text">
+              Recording stays on this device until you choose to transcribe it.
+            </p>
+          </div>
+
+          <div class="actions">
+            <button id="transcribeBtn" class="primary" disabled>
+              Transcribe locally
+            </button>
+            <button id="demoBtn" class="ghost">Load demo transcript</button>
+          </div>
+
+          <div class="meta-block">
+            <p class="meta-label">Current source</p>
+            <p id="selectedFileName">No file selected yet.</p>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-bar">
+              <div id="progressFill"></div>
+            </div>
+            <p id="progressText">Waiting for input</p>
+          </div>
+        </section>
+
+        <section class="panel transcript-panel">
+          <div class="section-heading">
+            <div>
+              <p class="kicker">Output</p>
+              <h2>Transcript</h2>
+            </div>
+            <button id="copyTranscriptBtn" class="ghost small">
+              Copy text
+            </button>
+          </div>
+          <div id="transcriptMeta" class="panel-note">
+            Local transcript segments will appear here.
+          </div>
+          <pre id="transcriptOutput" class="output transcript-output"></pre>
+        </section>
+
+        <section class="panel minutes-panel">
+          <div class="section-heading">
+            <div>
+              <p class="kicker">Meeting minutes</p>
+              <h2>Summary + next steps</h2>
+            </div>
+            <button id="copyMinutesBtn" class="ghost small">
+              Copy minutes
+            </button>
+          </div>
+          <div id="minutesOutput" class="minutes-output empty">
+            Generate or load a transcript to produce a polished meeting recap.
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
